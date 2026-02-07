@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 const Button = (props) => <button onClick={props.onClick}>{props.text}</button>
-const Info = (props) => <p>{props.text} {props.value}</p>
+const StatisticsLine = (props) => <p>{props.text} {props.value}</p>
 
 const Statistics = (props) => {
   const total = props.value1 + props.value2 + props.value3
@@ -17,12 +17,12 @@ const Statistics = (props) => {
     return (
       <div>
         <h1>Statistics</h1>
-        <p>{props.text1} {props.value1}</p>
-        <p>{props.text2} {props.value2}</p>
-        <p>{props.text3} {props.value3}</p>
-        <p>{props.text4} {total}</p>
-        <p>{props.text5} {props.value5}</p>
-        <p>{props.text6} {props.value6}</p>
+        <StatisticsLine text={props.text1} value={props.value1} />
+        <StatisticsLine text={props.text2} value={props.value2} />
+        <StatisticsLine text={props.text3} value={props.value3} />
+        <StatisticsLine text={props.text4} value={total} />
+        <StatisticsLine text={props.text5} value={props.value5} />
+        <StatisticsLine text={props.text6} value={props.value6} />
       </div>
     )
   }
@@ -74,7 +74,7 @@ const App = () => {
         text1='good' value1={good}
         text2='neutral' value2={neutral}
         text3='bad' value3={bad}
-        text4='all' value4={good + neutral + bad}
+        text4='all'
         text5='average' value5={avarage()}
         text6='positive' value6={positive()}
       />
