@@ -4,18 +4,28 @@ const Button = (props) => <button onClick={props.onClick}>{props.text}</button>
 const Info = (props) => <p>{props.text} {props.value}</p>
 
 const Statistics = (props) => {
-  return (
-    <div>
-      <h1>Statistics</h1>
-      <p>{props.text1} {props.value1}</p>
-      <p>{props.text2} {props.value2}</p>
-      <p>{props.text3} {props.value3}</p>
-      <p>{props.text4} {props.value4}</p>
-      <p>{props.text5} {props.value5}</p>
-      <p>{props.text6} {props.value6}</p>
-    </div>
-
-  )
+  const total = props.value1 + props.value2 + props.value3
+  if(total === 0) {
+    return (
+      <div>
+        <h1>Statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
+  else{
+    return (
+      <div>
+        <h1>Statistics</h1>
+        <p>{props.text1} {props.value1}</p>
+        <p>{props.text2} {props.value2}</p>
+        <p>{props.text3} {props.value3}</p>
+        <p>{props.text4} {total}</p>
+        <p>{props.text5} {props.value5}</p>
+        <p>{props.text6} {props.value6}</p>
+      </div>
+    )
+  }
 }
 
 const App = () => {
