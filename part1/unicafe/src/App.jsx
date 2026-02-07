@@ -3,6 +3,21 @@ import { useState } from 'react'
 const Button = (props) => <button onClick={props.onClick}>{props.text}</button>
 const Info = (props) => <p>{props.text} {props.value}</p>
 
+const Statistics = (props) => {
+  return (
+    <div>
+      <h1>Statistics</h1>
+      <p>{props.text1} {props.value1}</p>
+      <p>{props.text2} {props.value2}</p>
+      <p>{props.text3} {props.value3}</p>
+      <p>{props.text4} {props.value4}</p>
+      <p>{props.text5} {props.value5}</p>
+      <p>{props.text6} {props.value6}</p>
+    </div>
+
+  )
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -45,13 +60,14 @@ const App = () => {
         <Button onClick={()=>setToNeutral(neutral + 1)} text='neutral' />
         <Button onClick={()=>setTobad(bad + 1)} text='bad' />
       </div>
-      <h1>Statistics</h1>
-      <Info text='good' value={good} ></Info>
-      <Info text='neutral' value={neutral} ></Info>
-      <Info text='bad' value={bad} ></Info>
-      <Info text='all' value={good+neutral+bad}/>
-      <Info text='average' value={avarage()} />
-      <Info text='positive' value={positive()} />
+      <Statistics 
+        text1='good' value1={good}
+        text2='neutral' value2={neutral}
+        text3='bad' value3={bad}
+        text4='all' value4={good + neutral + bad}
+        text5='average' value5={avarage()}
+        text6='positive' value6={positive()}
+      />
     </div>
   )
 }
