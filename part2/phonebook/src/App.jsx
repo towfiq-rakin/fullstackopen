@@ -1,23 +1,20 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
+import personServices from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(()=>{
-    //console.log('effect')
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response=>{
-      //console.log('fullfilled');
-      setPersons(response.data)
+    personServices
+    .getAll()
+    .then(initPersons=>{
+      setPersons(initPersons)
     })
   },[])
-  //console.log('render',persons.length, 'persons');
   
   const personToShow = searchQuery === '' ?
     persons:
