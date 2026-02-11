@@ -22,14 +22,16 @@ const App = () => {
       person.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
   
-  const deletePerson = (id) => {
-    personServices
-    .deletePer(id)
-    .then(()=>{
-      //console.log('deleted',id)
-      setPersons(persons.filter(person => person.id !== id));
-    })
-    .catch(error=>console.log(error))
+  const deletePerson = (person) => {
+    if(confirm(`Delete ${person.name} ?`)) {
+      personServices
+      .deletePer(person.id)
+      .then(()=>{
+        //console.log('deleted',id)
+        setPersons(persons.filter(p => p.id !== person.id));
+      })
+      .catch(error=>console.log(error))
+    }
   }
 
   return (
