@@ -21,6 +21,16 @@ const App = () => {
     persons.filter(person=>
       person.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
+  
+  const deletePerson = (id) => {
+    personServices
+    .deletePer(id)
+    .then(()=>{
+      //console.log('deleted',id)
+      setPersons(persons.filter(person => person.id !== id));
+    })
+    .catch(error=>console.log(error))
+  }
 
   return (
     <div>
@@ -29,7 +39,7 @@ const App = () => {
       <h2>Add a new</h2>
       <PersonForm persons={persons} setPersons={setPersons}/>
       <h2>Numbers</h2>
-      <Persons persons={personToShow}/>
+      <Persons persons={personToShow} delPerson={deletePerson}/>
     </div>
   )
 }
