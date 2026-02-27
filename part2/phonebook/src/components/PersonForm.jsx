@@ -16,35 +16,38 @@ const PersonForm = ({ persons, setPersons }) => {
 
   const addPerson = (event) => {
     event.preventDefault()
+    
 
-    const nameExists = persons.find(person =>
+    const existingPerson = persons.find(person =>
       person.name.toLowerCase() === newName.toLowerCase()
-    ).id
+    )
 
-    if (nameExists) {
-      console.log(nameExists)
+    if (existingPerson) {
+      console.log(existingPerson)
       //alert(`${newName} is already added to phonebook`)
       if(confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
-        const nameObj = { name: newName, number: newPhone }
+        const upadatedPersonObj = { ...existingPerson, number: newPhone }
 
         personServices
-        .update(nameExists, nameObj)
+        .update(existingPerson.id, upadatedPersonObj)
         .then(returnedPersons=>{
           setPersons(persons.map(person=>
-            person.name === newName ? returnedPersons : person
+            person.name === existingPerson.id ? returnedPersons : person
           ))
+          setNewName('')
+          setNewPhone('')
         })
       }
     }
     else{
-      const nameObj = 
+      const newPersonObj = 
       { 
         name: newName,
         number: newPhone
       }
       
       personServices
-      .create(nameObj)
+      .create(newPersonObj)
       .then(newPerson=>{
         setPersons(persons.concat(newPerson))
         setNewName('')
