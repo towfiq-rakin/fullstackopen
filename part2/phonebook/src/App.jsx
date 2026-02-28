@@ -3,11 +3,12 @@ import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import personServices from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [searchQuery, setSearchQuery] = useState('')
-
+  const [notification, setNotification] = useState(null)
   useEffect(()=>{
     personServices
     .getAll()
@@ -37,9 +38,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification}/>
       <Filter value={searchQuery} onChange={(e)=>setSearchQuery(e.target.value)} />
       <h2>Add a new</h2>
-      <PersonForm persons={persons} setPersons={setPersons}/>
+      <PersonForm 
+        persons={persons} 
+        setPersons={setPersons} 
+        setNotification={setNotification}
+      />
       <h2>Numbers</h2>
       <Persons persons={personToShow} delPerson={deletePerson}/>
     </div>
