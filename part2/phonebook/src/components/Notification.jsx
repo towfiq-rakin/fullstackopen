@@ -1,11 +1,10 @@
-const Notification = ({ message }) => {
-  if (message === null) {
+const Notification = ({ info }) => {
+  if (info === null) {
     return null
   }
-  console.log(message)
   return (
-    <div className="confirm">
-      {message}
+    <div className={info.type}>
+      {info.message}
     </div>
   )
 }

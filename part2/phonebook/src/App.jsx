@@ -31,14 +31,22 @@ const App = () => {
         //console.log('deleted',id)
         setPersons(persons.filter(p => p.id !== person.id));
       })
-      .catch(error=>console.log(error))
+      .catch(error=>{
+        console.log(error)
+        setNotification({
+          message:`Information of ${person.name} has already been deleted from server`,
+          type:'error'
+        })
+        setPersons(persons.filter(p=>p.id!==person.id))
+        setTimeout(()=>setNotification(null),5000)
+      })
     }
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification}/>
+      <Notification info={notification}/>
       <Filter value={searchQuery} onChange={(e)=>setSearchQuery(e.target.value)} />
       <h2>Add a new</h2>
       <PersonForm 

@@ -38,9 +38,10 @@ const PersonForm = ({ persons, setPersons, setNotification }) => {
           setNewPhone('')
         })
 
-        setNotification(
-          `Updated ${existingPerson.name}`
-        )
+        setNotification({
+          message:`Updated ${existingPerson.name}`,
+          type:'success'
+        })
 
         setTimeout(()=>{setNotification(null)},5000)
       }
@@ -60,9 +61,10 @@ const PersonForm = ({ persons, setPersons, setNotification }) => {
         setNewPhone('')
       })
 
-      setNotification(
-        `Added ${newPersonObj.name}`
-      )
+      setNotification({
+        message:`Added ${newPersonObj.name}`,
+        type:'success'
+      })
 
       setTimeout(()=>{setNotification(null)},5000)
     }
