@@ -9,6 +9,7 @@ const App = () => {
   const [persons, setPersons] = useState([]) 
   const [searchQuery, setSearchQuery] = useState('')
   const [notification, setNotification] = useState(null)
+  
   useEffect(()=>{
     personServices
     .getAll()
