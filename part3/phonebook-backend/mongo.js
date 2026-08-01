@@ -11,12 +11,10 @@ const number = process.argv[4];
 
 //console.log(password, name, number);
 
-const url = `mongodb+srv://towfiqomarrakin_db_user:${password}@phonebook.q8drprr.mongodb.net/Person?appName=phonebook`;
+const url = `mongodb+srv://towfiqomarrakin_db_user:${password}@phonebook.gfgxqhx.mongodb.net/Person?appName=phonebook`;
 
-console.log("url ", url);
+//console.log("url ", url);
 mongoose.set("strictQuery", false);
-
-//mongoose.connect(url, { family: 4 })
 
 try {
   mongoose.connect(url, { family: 4 });
@@ -24,7 +22,9 @@ try {
   handleError(error);
 }
 
-console.log("connected to MongoDB");
+
+
+//console.log("connected to MongoDB");
 const personSchema = new mongoose.Schema({
   name: String,
   number: String,
@@ -37,20 +37,25 @@ const person = new Person({
   number: number,
 });
 
+
+
 if (process.argv.length === 3) {
   Person.find({}).then((result) => {
-    console.log("person:");
+    console.log("phonebook:");
     result.forEach((person) => {
       console.log(person.name, " ", person.number);
     });
     mongoose.connection.close();
   });
+
 } else if (process.argv.length === 5) {
   person.save().then((result) => {
     console.log("person saved!");
     //console.log(result);
     mongoose.connection.close();
   });
-}   
+}  
+
+
 
 
