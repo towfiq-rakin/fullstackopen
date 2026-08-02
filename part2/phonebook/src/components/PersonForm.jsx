@@ -32,18 +32,19 @@ const PersonForm = ({ persons, setPersons, setNotification }) => {
         .update(existingPerson.id, upadatedPersonObj)
         .then(returnedPersons=>{
           setPersons(persons.map(person=>
-            person.name === existingPerson.id ? returnedPersons : person
+            person.id === existingPerson.id ? returnedPersons : person
           ))
-          setNewName('')
-          setNewPhone('')
-        })
+          setNewName("");
+          setNewPhone("");
+          setNotification({
+            message: `Updated ${existingPerson.name}`,
+            type: "success",
+          });
 
-        setNotification({
-          message:`Updated ${existingPerson.name}`,
-          type:'success'
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
         })
-
-        setTimeout(()=>{setNotification(null)},5000)
       }
     }
     else{
@@ -59,14 +60,23 @@ const PersonForm = ({ persons, setPersons, setNotification }) => {
         setPersons(persons.concat(newPerson))
         setNewName('')
         setNewPhone('')
-      })
+        setNotification({
+          message: `Added ${newPersonObj.name}`,
+          type: "success",
+        });
 
-      setNotification({
-        message:`Added ${newPersonObj.name}`,
-        type:'success'
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
       })
-
-      setTimeout(()=>{setNotification(null)},5000)
+      .catch(error => {
+        console.log(error.response.data.error)
+        setNotification({
+          message: error.response.data.error,
+          type: 'error'
+        })
+        setTimeout(()=>{setNotification(null)},5000)
+      })
     }
 
   }
