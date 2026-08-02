@@ -4,15 +4,15 @@ const url = process.env.MONGODB_URI
 
 mongoose.set('strictQuery',false)
 
-console.log('Connecting to ', url);
+console.log('Connecting to ', url)
 
 mongoose.connect(url, { family: 4 })
-  .then(result => {
-    console.log('Connected to MongoDB');
+  .then(() => {
+    console.log('Connected to MongoDB')
   })
   .catch(error => {
-    console.log('error connecting to MongoDB', error.message);
-    
+    console.log('error connecting to MongoDB', error.message)
+
   })
 
 const personSchema = new mongoose.Schema({
@@ -35,7 +35,7 @@ const personSchema = new mongoose.Schema({
       message: props => `${props.value} is not a valid phone number! Phone number must be in format XX-XXXXXXX or XXX-XXXXXXX`
     }
   }
-});
+})
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
@@ -44,7 +44,5 @@ personSchema.set('toJSON', {
     delete returnedObject.__v
   }
 })
-
-const Person = mongoose.model("Person", personSchema);
 
 module.exports = mongoose.model('Person', personSchema)

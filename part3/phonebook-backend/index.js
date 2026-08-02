@@ -7,18 +7,18 @@ const Person = require('./models/person')
 app.use(express.json())
 app.use(express.static('dist'))
 
-
-morgan.token('body',(req)=>{
-  return req.body && Object.keys(req.body).length ? JSON.stringify(req.body):''
+morgan.token('body', (req) => {
+  return req.body && Object.keys(req.body).length
+    ? JSON.stringify(req.body)
+    : ''
 })
 
 app.use(
-  morgan(':method :url :status :res[content-length] - :response-time ms :body')
+  morgan(':method :url :status :res[content-length] - :response-time ms :body'),
 )
 
-
 app.get('/api/persons', (request, response) => {
-  Person.find({}).then(persons => {
+  Person.find({}).then((persons) => {
     response.json(persons)
   })
 })
@@ -26,7 +26,7 @@ app.get('/api/persons', (request, response) => {
 app.get('/info', (request, response) => {
   const time = Date()
 
-  Person.countDocuments({}).then(count => {
+  Person.countDocuments({}).then((count) => {
     response.end(`
       <p>Phonebook has info for ${count} people</p>
       <p>${time}</p>
@@ -34,31 +34,31 @@ app.get('/info', (request, response) => {
   })
 })
 
-app.get('/api/persons/:id', (request, response, next)=>{
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
-  .then(person => {
-    if(!person) {
-      response.status(404).end()
-    }
-    response.json(person)
-  })
-  .catch(error => next(error))
+    .then((person) => {
+      if (!person) {
+        response.status(404).end()
+      }
+      response.json(person)
+    })
+    .catch((error) => next(error))
 })
 
-app.delete('/api/persons/:id',(request, response, next)=>{
+app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result =>{
+    .then(() => {
       response.status(204).end()
-    })  
-    .catch(error => next(error))
+    })
+    .catch((error) => next(error))
 })
 
-app.post('/api/persons', (request, response, next)=>{
-  const body = request.body 
+app.post('/api/persons', (request, response, next) => {
+  const body = request.body
 
-  if(!body) {
+  if (!body) {
     return response.status(400).json({
-      error: 'name or number missing'
+      error: 'name or number missing',
     })
   }
 
@@ -67,30 +67,31 @@ app.post('/api/persons', (request, response, next)=>{
     number: body.number,
   })
 
-  person.save()
-    .then(savedPerson => {
+  person
+    .save()
+    .then((savedPerson) => {
       response.json(savedPerson)
     })
-    .catch(error => next(error))
+    .catch((error) => next(error))
 })
 
-app.put('/api/persons/:id',(request, respose, next) => {
-  const {name, number} = request.body
-  Person.findById(request.params.id)
-    .then(person => {
-      if(!person) {
-        respose.status(404).end()
-      }
+app.put('/api/persons/:id', (request, respose, next) => {
+  const { name, number } = request.body
+  Person.findById(request.params.id).then((person) => {
+    if (!person) {
+      respose.status(404).end()
+    }
 
-      person.name = name
-      person.number = number
+    person.name = name
+    person.number = number
 
-      return person.save()
-        .then((updatedPerson) => {
-          respose.json(updatedPerson)
-        })
-        .catch(error => next(error))
-    })
+    return person
+      .save()
+      .then((updatedPerson) => {
+        respose.json(updatedPerson)
+      })
+      .catch((error) => next(error))
+  })
 })
 
 const unknownEndpoint = (request, response) => {
@@ -105,17 +106,15 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
-  else if (error.name === 'ValidationError') {
+  } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
-  } 
+  }
 
   next(error)
 }
 
 // this has to be the last loaded middleware,
 app.use(errorHandler)
-
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
