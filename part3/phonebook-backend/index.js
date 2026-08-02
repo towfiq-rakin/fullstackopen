@@ -113,7 +113,7 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
-// this has to be the last loaded middleware, also all the routes should be registered before this!
+// this has to be the last loaded middleware,
 app.use(errorHandler)
 
 
