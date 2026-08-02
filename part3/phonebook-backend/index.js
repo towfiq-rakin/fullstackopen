@@ -78,6 +78,23 @@ app.post('/api/persons', (request, response)=>{
   })
 })
 
+app.put('/api/persons/:id',(request, respose, next) => {
+  const {name, number} = request.body
+  Person.findById(request.params.id)
+    .then(person => {
+      if(!person) {
+        respose.status(404).end()
+      }
+
+      person.name = name
+      person.number = number
+
+      return person.save().then((updatedPerson) => {
+        respose.json(updatedPerson)
+      })
+    })
+})
+
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
