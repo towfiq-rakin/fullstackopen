@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const Person = require('./models/person')
-const { Result } = require('ethers')
 
 app.use(express.json())
 app.use(express.static('dist'))
@@ -26,13 +25,13 @@ app.get('/api/persons', (request, response) => {
 
 app.get('/info', (request, response) => {
   const time = Date()
-  const count = persons.length
 
-  response.end(`
-    <p>Phonebook has info for ${count} people</p>
-    <p>${time}</p>
-  `)
-
+  Person.countDocuments({}).then(count => {
+    response.end(`
+      <p>Phonebook has info for ${count} people</p>
+      <p>${time}</p>
+    `)
+  })
 })
 
 app.get('/api/persons/:id', (request, response, next)=>{
@@ -46,7 +45,7 @@ app.get('/api/persons/:id', (request, response, next)=>{
   .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id',(request, response)=>{
+app.delete('/api/persons/:id',(request, response, next)=>{
   Person.findByIdAndDelete(request.params.id)
     .then(result =>{
       response.status(204).end()
@@ -55,7 +54,7 @@ app.delete('/api/persons/:id',(request, response)=>{
 })
 
 app.post('/api/persons', (request, response)=>{
-  const body = request.body
+  const body = request.body 
 
   if(!body.name) {
     return response.status(400).json({
