@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Ransomware analysis",
+  "author": "Towfiq Omar Rakin",
+  "url": "https://milkcandy.xyz",
+  "likes": 0
+} 
